@@ -2,15 +2,19 @@ import React, { useState, useRef } from 'react'
 import { gsap } from 'gsap'
 import EntryPortal from './pages/EntryPortal.jsx'
 import Nexus from './pages/Nexus.jsx'
+import DiscoveryForge from './pages/DiscoveryForge.jsx'
+import BlackMarket from './pages/BlackMarket.jsx'
+import Cathedral from './pages/Cathedral.jsx' 
+import CampfireLobby from './pages/campfire.jsx' // <-- Imported your new Campfire component
 
 // ── Placeholder for pages not yet built ──────────────────────
-function Placeholder({ name, color = '#CC0000' }) {
+function Placeholder({ name, color = '#00E6F6' }) {
   return (
     <div style={{
       display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
       height: '100vh', gap: '1rem',
-      background: 'radial-gradient(ellipse at center, #1A0A2E 0%, #0A0A0F 70%)',
+      background: 'radial-gradient(ellipse at center, #05050A 0%, #000000 70%)',
     }}>
       <div style={{
         fontFamily: 'Bebas Neue', fontSize: '5rem',
@@ -50,23 +54,24 @@ export default function App() {
     setPage('nexus')
   }
 
+  // ── Route Renderer ──────────────────────────────────────────
   const renderPage = () => {
     switch (page) {
       case 'nexus':        return <Nexus onNavigate={navigateTo} />
-      case 'discovery':    return <Placeholder name="DISCOVERY FORGE"      color="#CC0000" />
-      case 'achievements': return <Placeholder name="ACHIEVEMENT CATHEDRAL" color="#FFD700" />
-      case 'social':       return <Placeholder name="THE CAMPFIRE"         color="#00E5FF" />
-      case 'store':        return <Placeholder name="BLACK MARKET"         color="#FFD700" />
+      case 'discovery':    return <DiscoveryForge />
+      case 'achievements': return <Cathedral /> 
+      case 'social':       return <CampfireLobby /> // <-- Replaced Placeholder with CampfireLobby
+      case 'store':        return <BlackMarket />
       default:             return <Nexus onNavigate={navigateTo} />
     }
   }
 
   return (
     <>
-      {/* Page wipe transition */}
+      {/* Page wipe transition - PS Cyan/Blue */}
       <div ref={wipeRef} style={{
         position: 'fixed', inset: 0, zIndex: 9998,
-        background: 'linear-gradient(90deg, #0A0A0F 0%, #CC0000 50%, #0A0A0F 100%)',
+        background: 'linear-gradient(90deg, #05050A 0%, #00E6F6 50%, #05050A 100%)',
         display: 'none', pointerEvents: 'none',
       }} />
 
@@ -86,7 +91,7 @@ export default function App() {
   )
 }
 
-// ── Inline NavBar (no separate import needed) ─────────────────
+// ── Inline NavBar ─────────────────
 const NAV_ITEMS = [
   { id: 'nexus',        label: 'NEXUS',     icon: '⬡' },
   { id: 'discovery',    label: 'FORGE',     icon: '◈' },
@@ -101,23 +106,23 @@ function NavBar({ currentPage, onNavigate }) {
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '0 2rem', height: '64px',
-      background: 'linear-gradient(180deg, rgba(10,10,15,0.98) 0%, rgba(10,10,15,0) 100%)',
-      borderBottom: '1px solid rgba(204,0,0,0.2)',
+      background: 'linear-gradient(180deg, rgba(5,5,10,0.98) 0%, rgba(5,5,10,0) 100%)',
+      borderBottom: '1px solid rgba(0,230,246,0.2)', 
     }}>
       <div style={{
         fontFamily: 'Bebas Neue', fontSize: '1.8rem',
-        color: '#CC0000', letterSpacing: '0.15em',
-        textShadow: '0 0 20px rgba(204,0,0,0.6)', cursor: 'pointer',
+        color: '#00E6F6', letterSpacing: '0.15em',
+        textShadow: '0 0 20px rgba(0,230,246,0.6)', cursor: 'pointer',
       }} onClick={() => onNavigate('nexus')}>
-        ⬡ THE ARENA
+        ⬡ ARENA_OS
       </div>
 
       <div style={{ display: 'flex', gap: '0.25rem' }}>
         {NAV_ITEMS.map(item => (
           <button key={item.id} onClick={() => onNavigate(item.id)} style={{
-            background: currentPage === item.id ? 'rgba(204,0,0,0.15)' : 'transparent',
+            background: currentPage === item.id ? 'rgba(0,230,246,0.1)' : 'transparent',
             border: 'none',
-            borderBottom: currentPage === item.id ? '2px solid #CC0000' : '2px solid transparent',
+            borderBottom: currentPage === item.id ? '2px solid #00E6F6' : '2px solid transparent',
             color: currentPage === item.id ? '#F0F0F5' : '#888899',
             fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.8rem',
             letterSpacing: '0.12em', padding: '0 1rem', height: '64px',
@@ -136,16 +141,16 @@ function NavBar({ currentPage, onNavigate }) {
       }}>
         <div style={{
           width: 36, height: 36, borderRadius: '50%',
-          background: 'linear-gradient(135deg, #CC0000, #1A0A2E)',
-          border: '2px solid #FFD700',
+          background: 'linear-gradient(135deg, #003791, #05050A)',
+          border: '2px solid #00E6F6',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '0.75rem', color: '#FFD700', fontFamily: 'Bebas Neue',
+          fontSize: '0.75rem', color: '#00E6F6', fontFamily: 'Bebas Neue',
         }}>LVL</div>
-        <span style={{ color: '#F0F0F5' }}>APEX_KRATOS</span>
+        <span style={{ color: '#F0F0F5' }}>SWAYAM_PSN</span>
         <span style={{
-          background: 'linear-gradient(90deg, #CC0000, #FF4444)',
+          background: 'linear-gradient(90deg, #003791, #00E6F6)',
           padding: '2px 8px', borderRadius: '3px',
-          fontFamily: 'Share Tech Mono', fontSize: '0.75rem', color: '#fff',
+          fontFamily: 'Share Tech Mono', fontSize: '0.75rem', color: '#05050A', fontWeight: 'bold'
         }}>78</span>
       </div>
     </nav>

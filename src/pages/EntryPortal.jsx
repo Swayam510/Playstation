@@ -23,10 +23,10 @@ export default function EntryPortal({ onComplete }) {
     })
     renderer.setSize(W, H)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    renderer.setClearColor(0x0A0A0F, 1)
+    renderer.setClearColor(0x05050A, 1) // Deep PS void
 
     const scene = new THREE.Scene()
-    scene.fog = new THREE.FogExp2(0x0A0A0F, 0.012)
+    scene.fog = new THREE.FogExp2(0x05050A, 0.012)
 
     const camera = new THREE.PerspectiveCamera(75, W / H, 0.1, 1000)
     camera.position.set(0, 0, 80) // Start far back
@@ -44,7 +44,7 @@ export default function EntryPortal({ onComplete }) {
     // ── Tunnel Ring Lines ───────────────────────────────────────
     const tubeGeometry = new THREE.TubeGeometry(path, 100, 8, 12, false)
     const tubeMaterial = new THREE.MeshBasicMaterial({
-      color: 0x330000,
+      color: 0x000833, // Deep PS Blue
       side: THREE.BackSide,
       wireframe: true,
       transparent: true,
@@ -59,7 +59,7 @@ export default function EntryPortal({ onComplete }) {
       const t = i / 30
       const ringGeo = new THREE.RingGeometry(6, 6.3, 64)
       const ringMat = new THREE.MeshBasicMaterial({
-        color: i % 3 === 0 ? 0xCC0000 : i % 3 === 1 ? 0xFFD700 : 0x00E5FF,
+        color: i % 3 === 0 ? 0x00E6F6 : i % 3 === 1 ? 0x003791 : 0xD386A8, // Cyan, Deep Blue, PS Pink
         transparent: true,
         opacity: 0.6,
         side: THREE.DoubleSide,
@@ -80,15 +80,13 @@ export default function EntryPortal({ onComplete }) {
     const sizes = new Float32Array(PARTICLE_COUNT)
 
     const palette = [
-      new THREE.Color(0xCC0000),
-      new THREE.Color(0xFF4400),
-      new THREE.Color(0xFFD700),
-      new THREE.Color(0x00E5FF),
-      new THREE.Color(0xFFFFFF),
+      new THREE.Color(0x00E6F6), // Cyan
+      new THREE.Color(0x003791), // Blue
+      new THREE.Color(0xFFFFFF), // White
+      new THREE.Color(0xD386A8), // Pink
     ]
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
-      // Place particles along and around the tunnel
       const t = Math.random()
       const angle = Math.random() * Math.PI * 2
       const radius = 2 + Math.random() * 5
@@ -127,7 +125,7 @@ export default function EntryPortal({ onComplete }) {
     // ── Central Glow Orb ────────────────────────────────────────
     const orbGeo = new THREE.SphereGeometry(1.5, 32, 32)
     const orbMat = new THREE.MeshBasicMaterial({
-      color: 0xCC0000,
+      color: 0x00E6F6, // Cyan glow at the end of the tunnel
       transparent: true,
       opacity: 0,
     })
@@ -136,13 +134,13 @@ export default function EntryPortal({ onComplete }) {
     scene.add(orb)
 
     // ── Ambient point lights ────────────────────────────────────
-    const redLight   = new THREE.PointLight(0xCC0000, 3, 60)
-    const goldLight  = new THREE.PointLight(0xFFD700, 2, 40)
-    const cyanLight  = new THREE.PointLight(0x00E5FF, 2, 40)
-    redLight.position.set(0, 0, 60)
-    goldLight.position.set(5, 3, 30)
-    cyanLight.position.set(-5, -3, 45)
-    scene.add(redLight, goldLight, cyanLight)
+    const mainLight   = new THREE.PointLight(0x00E6F6, 3, 60) // Cyan
+    const blueLight   = new THREE.PointLight(0x003791, 2, 40) // Deep Blue
+    const whiteLight  = new THREE.PointLight(0xFFFFFF, 2, 40) // White
+    mainLight.position.set(0, 0, 60)
+    blueLight.position.set(5, 3, 30)
+    whiteLight.position.set(-5, -3, 45)
+    scene.add(mainLight, blueLight, whiteLight)
 
     // ── GSAP Camera Animation — fly through tunnel ─────────────
     let progress = { t: 0 }
@@ -158,8 +156,8 @@ export default function EntryPortal({ onComplete }) {
         camera.position.copy(camPos)
         camera.lookAt(lookAt)
 
-        // Red light follows camera
-        redLight.position.copy(camPos)
+        // FIXED: Track mainLight instead of the deleted redLight
+        mainLight.position.copy(camPos)
       },
       onComplete: () => {
         // Final pull-back reveal
@@ -223,10 +221,10 @@ export default function EntryPortal({ onComplete }) {
       orbMat.opacity = pulse * 0.4
 
       // Light movement
-      goldLight.position.x = Math.sin(elapsed * 0.7) * 8
-      goldLight.position.y = Math.cos(elapsed * 0.5) * 5
-      cyanLight.position.x = Math.cos(elapsed * 0.6) * 8
-      cyanLight.position.y = Math.sin(elapsed * 0.8) * 5
+      blueLight.position.x = Math.sin(elapsed * 0.7) * 8
+      blueLight.position.y = Math.cos(elapsed * 0.5) * 5
+      whiteLight.position.x = Math.cos(elapsed * 0.6) * 8
+      whiteLight.position.y = Math.sin(elapsed * 0.8) * 5
 
       renderer.render(scene, camera)
     }
@@ -276,14 +274,14 @@ export default function EntryPortal({ onComplete }) {
           onClick={handleProceed}
           style={{
             position: 'absolute', bottom: '2rem', right: '2rem',
-            background: 'transparent', border: '1px solid rgba(204,0,0,0.5)',
+            background: 'transparent', border: '1px solid rgba(0,230,246,0.5)', // Cyan
             color: '#888899', fontFamily: 'Rajdhani', fontWeight: 600,
             fontSize: '0.8rem', letterSpacing: '0.2em',
             padding: '0.5rem 1.2rem', cursor: 'pointer',
             transition: 'all 0.2s',
           }}
-          onMouseEnter={e => { e.target.style.color = '#F0F0F5'; e.target.style.borderColor = '#CC0000' }}
-          onMouseLeave={e => { e.target.style.color = '#888899'; e.target.style.borderColor = 'rgba(204,0,0,0.5)' }}
+          onMouseEnter={e => { e.target.style.color = '#F0F0F5'; e.target.style.borderColor = '#00E6F6' }}
+          onMouseLeave={e => { e.target.style.color = '#888899'; e.target.style.borderColor = 'rgba(0,230,246,0.5)' }}
         >
           SKIP INTRO
         </button>
@@ -339,9 +337,9 @@ function LandingOverlay({ onProceed }) {
       '-=0.1'
     )
 
-    // Chromatic aberration flicker on title
+    // Chromatic aberration flicker on title (Cyan/Blue)
     .to(titleRef.current, {
-      textShadow: '-2px 0 2px #ff000099, 2px 0 2px #00e5ff99',
+      textShadow: '-2px 0 2px rgba(0, 55, 145, 0.6), 2px 0 2px rgba(0, 230, 246, 0.6)',
       duration: 0.1, yoyo: true, repeat: 5, ease: 'none',
     }, 0.4)
   }, [])
@@ -351,13 +349,13 @@ function LandingOverlay({ onProceed }) {
       position: 'absolute', inset: 0,
       display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
-      background: 'radial-gradient(ellipse at center, rgba(26,10,46,0.85) 0%, rgba(10,10,15,0.95) 70%)',
+      background: 'radial-gradient(ellipse at center, rgba(0,8,30,0.85) 0%, rgba(5,5,10,0.95) 70%)', // PS Blue/Black Gradient
       opacity: 0,
     }}>
       {/* Decorative lines */}
       <div ref={line1Ref} style={{
         width: 240, height: 1,
-        background: 'linear-gradient(90deg, transparent, #CC0000, transparent)',
+        background: 'linear-gradient(90deg, transparent, #00E6F6, transparent)', // Cyan
         marginBottom: '2rem',
         transformOrigin: 'left center',
       }} />
@@ -377,12 +375,12 @@ function LandingOverlay({ onProceed }) {
         opacity: 0,
       }}>
         THE<br />
-        <span style={{ color: '#CC0000', WebkitTextStroke: '1px #CC0000' }}>ARENA</span>
+        <span style={{ color: '#00E6F6', textShadow: '0 0 20px rgba(0, 230, 246, 0.5)' }}>ARENA</span>
       </h1>
 
       <div ref={line2Ref} style={{
         width: 240, height: 1,
-        background: 'linear-gradient(90deg, transparent, #FFD700, transparent)',
+        background: 'linear-gradient(90deg, transparent, #00E6F6, transparent)', // Cyan
         marginTop: '1.5rem', marginBottom: '1.5rem',
         transformOrigin: 'left center',
       }} />
@@ -400,20 +398,21 @@ function LandingOverlay({ onProceed }) {
         ref={btnRef}
         onClick={onProceed}
         style={{
-          background: 'linear-gradient(135deg, #CC0000, #880000)',
-          border: 'none', borderRadius: '3px',
+          background: 'linear-gradient(135deg, #003791, #001F54)', // PS Blue
+          border: '1px solid #00E6F6', // Cyan Border
+          borderRadius: '3px',
           color: '#F0F0F5', fontFamily: 'Bebas Neue',
           fontSize: '1.1rem', letterSpacing: '0.4em',
           padding: '1rem 3rem', cursor: 'pointer',
           opacity: 0,
           transition: 'transform 0.2s, box-shadow 0.2s',
-          boxShadow: '0 0 30px rgba(204,0,0,0.4)',
+          boxShadow: '0 0 20px rgba(0, 230, 246, 0.2)', // Cyan glow
         }}
         onMouseEnter={e => {
-          gsap.to(e.currentTarget, { scale: 1.05, boxShadow: '0 0 50px rgba(204,0,0,0.7)', duration: 0.2 })
+          gsap.to(e.currentTarget, { scale: 1.05, boxShadow: '0 0 40px rgba(0, 230, 246, 0.6)', duration: 0.2 })
         }}
         onMouseLeave={e => {
-          gsap.to(e.currentTarget, { scale: 1, boxShadow: '0 0 30px rgba(204,0,0,0.4)', duration: 0.2 })
+          gsap.to(e.currentTarget, { scale: 1, boxShadow: '0 0 20px rgba(0, 230, 246, 0.2)', duration: 0.2 })
         }}
       >
         DROP IN
