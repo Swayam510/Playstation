@@ -90,12 +90,12 @@ export default function Cathedral() {
             fontSize: 'clamp(3rem, 6vw, 5.5rem)', 
             color: HW.parchment, 
             letterSpacing: '0.12em', margin: 0, lineHeight: 1.1,
-            textShadow: `0 0 30px ${HW.fire}88, 0 4px 8px rgba(0,0,0,0.8)`
+            textShadow: `0 0 40px ${HW.brightGold}99, 0 0 80px ${HW.fire}66, 0 0 120px ${HW.gold}44, 0 4px 8px rgba(0,0,0,0.9)`
           }}>
             THE CATHEDRAL OF<br/>
-            <span style={{ color: HW.gold }}>RECORDS</span>
+            <span style={{ color: HW.brightGold, textShadow: `0 0 30px ${HW.brightGold}CC, 0 0 60px ${HW.gold}88, 0 0 100px ${HW.fire}55` }}>RECORDS</span>
           </h1>
-          <div style={{ fontFamily: 'Rajdhani', fontWeight: 600, fontSize: '1.2rem', color: '#A89F91', letterSpacing: '0.4em', marginTop: '1rem' }}>
+          <div style={{ fontFamily: 'Rajdhani', fontWeight: 600, fontSize: '1.2rem', color: '#D4C9B8', letterSpacing: '0.4em', marginTop: '1rem', textShadow: `0 0 20px ${HW.gold}88, 0 0 40px ${HW.fire}44` }}>
             YOUR LEGACY, CARVED IN STONE
           </div>
         </div>
@@ -125,9 +125,9 @@ export default function Cathedral() {
               <div style={{ fontFamily: 'Share Tech Mono', fontSize: '0.75rem', color: HW.gold, letterSpacing: '0.3em', marginBottom: '0.5rem' }}>
                 ARCHETYPE IDENTIFIED
               </div>
-              <div style={{ fontFamily: 'Bebas Neue', fontSize: '2.2rem', color: HW.parchment, letterSpacing: '0.1em', lineHeight: 1.1 }}>
-                RELUCTANT<br/>COMPLETIONIST
-              </div>
+              <div style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(1.6rem, 2vw, 2rem)', color: HW.parchment, letterSpacing: '0.06em', lineHeight: 1.15, wordBreak: 'break-word' }}>
+  RELUCTANT<br/>COMPLETIONIST
+</div>
               <div style={{ width: '100%', height: 1, background: `linear-gradient(90deg, transparent, ${HW.gold}66, transparent)`, margin: '2rem 0' }} />
               
               {/* Stats */}

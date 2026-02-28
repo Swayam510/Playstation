@@ -5,9 +5,8 @@ import Nexus from './pages/Nexus.jsx'
 import DiscoveryForge from './pages/DiscoveryForge.jsx'
 import BlackMarket from './pages/BlackMarket.jsx'
 import Cathedral from './pages/Cathedral.jsx' 
-import CampfireLobby from './pages/campfire.jsx' // <-- Imported your new Campfire component
+import SocialLobby from './pages/SocialLobby.jsx' // ← changed from campfire.jsx
 
-// ── Placeholder for pages not yet built ──────────────────────
 function Placeholder({ name, color = '#00E6F6' }) {
   return (
     <div style={{
@@ -54,13 +53,12 @@ export default function App() {
     setPage('nexus')
   }
 
-  // ── Route Renderer ──────────────────────────────────────────
   const renderPage = () => {
     switch (page) {
       case 'nexus':        return <Nexus onNavigate={navigateTo} />
       case 'discovery':    return <DiscoveryForge />
-      case 'achievements': return <Cathedral /> 
-      case 'social':       return <CampfireLobby /> // <-- Replaced Placeholder with CampfireLobby
+      case 'achievements': return <Cathedral />
+      case 'social':       return <SocialLobby /> // ← changed from CampfireLobby
       case 'store':        return <BlackMarket />
       default:             return <Nexus onNavigate={navigateTo} />
     }
@@ -68,19 +66,16 @@ export default function App() {
 
   return (
     <>
-      {/* Page wipe transition - PS Cyan/Blue */}
       <div ref={wipeRef} style={{
         position: 'fixed', inset: 0, zIndex: 9998,
         background: 'linear-gradient(90deg, #05050A 0%, #00E6F6 50%, #05050A 100%)',
         display: 'none', pointerEvents: 'none',
       }} />
 
-      {/* Entry portal */}
       {!entryDone && (
         <EntryPortal onComplete={handleEntryComplete} />
       )}
 
-      {/* Main shell */}
       {entryDone && (
         <div style={{ width: '100%', height: '100%' }}>
           <NavBar currentPage={page} onNavigate={navigateTo} />
@@ -91,7 +86,6 @@ export default function App() {
   )
 }
 
-// ── Inline NavBar ─────────────────
 const NAV_ITEMS = [
   { id: 'nexus',        label: 'NEXUS',     icon: '⬡' },
   { id: 'discovery',    label: 'FORGE',     icon: '◈' },
@@ -107,7 +101,7 @@ function NavBar({ currentPage, onNavigate }) {
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '0 2rem', height: '64px',
       background: 'linear-gradient(180deg, rgba(5,5,10,0.98) 0%, rgba(5,5,10,0) 100%)',
-      borderBottom: '1px solid rgba(0,230,246,0.2)', 
+      borderBottom: '1px solid rgba(0,230,246,0.2)',
     }}>
       <div style={{
         fontFamily: 'Bebas Neue', fontSize: '1.8rem',
