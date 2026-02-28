@@ -1,0 +1,25 @@
+{
+  "name": "the-arena",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+"dependencies": {
+  "framer-motion": "^12.0.0",
+  "gsap": "^3.12.5",
+  "react": "^19.0.0",
+  "react-dom": "^19.0.0",
+  "react-router-dom": "^7.0.0",
+  "three": "^0.165.0",
+  "zustand": "^5.0.0"
+},
+  "devDependencies": {
+    "@types/three": "^0.165.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.2.0"
+  }
+}

@@ -1,0 +1,91 @@
+/* ============================================
+   THE ARENA — Global Design System
+   ============================================ */
+
+:root {
+  --void:       #0A0A0F;
+  --crimson:    #CC0000;
+  --crimson-bright: #FF1A1A;
+  --gold:       #FFD700;
+  --gold-dim:   #B8960C;
+  --cyan:       #00E5FF;
+  --indigo:     #1A0A2E;
+  --indigo-mid: #2D1B4E;
+  --white:      #F0F0F5;
+  --grey:       #888899;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-ui:    'Rajdhani', sans-serif;
+  --font-mono:  'Share Tech Mono', monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--void);
+  color: var(--white);
+  font-family: var(--font-ui);
+  cursor: crosshair;
+}
+
+/* ── Scanline CRT Overlay ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--void); }
+::-webkit-scrollbar-thumb { background: var(--crimson); border-radius: 2px; }
+
+/* ── Chromatic Aberration Hover Util ── */
+.ca-hover {
+  transition: text-shadow 0.2s ease;
+}
+.ca-hover:hover {
+  text-shadow:
+    -1px 0 1px #ff000066,
+     1px 0 1px #00e5ff66;
+}
+
+/* ── Holographic Shimmer ── */
+@keyframes holo-shift {
+  0%   { filter: hue-rotate(0deg) brightness(1); }
+  50%  { filter: hue-rotate(30deg) brightness(1.2); }
+  100% { filter: hue-rotate(0deg) brightness(1); }
+}
+.holo {
+  animation: holo-shift 3s ease-in-out infinite;
+}
+
+/* ── Pulse Glow ── */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 6px 2px rgba(0,229,255,0.3); }
+  50%       { box-shadow: 0 0 20px 6px rgba(0,229,255,0.7); }
+}
+.pulse { animation: pulse-glow 2s ease-in-out infinite; }
+
+/* ── Utility ── */
+.font-display { font-family: var(--font-display); }
+.font-mono    { font-family: var(--font-mono); }
+.text-crimson { color: var(--crimson); }
+.text-gold    { color: var(--gold); }
+.text-cyan    { color: var(--cyan); }
+.text-grey    { color: var(--grey); }
