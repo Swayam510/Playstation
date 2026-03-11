@@ -5,7 +5,7 @@ import Nexus from './pages/Nexus.jsx'
 import DiscoveryForge from './pages/DiscoveryForge.jsx'
 import BlackMarket from './pages/BlackMarket.jsx'
 import Cathedral from './pages/Cathedral.jsx' 
-import SocialLobby from './pages/SocialLobby.jsx' // ← changed from campfire.jsx
+import SocialLobby from './pages/SocialLobby.jsx'
 
 function Placeholder({ name, color = '#00E6F6' }) {
   return (
@@ -58,7 +58,7 @@ export default function App() {
       case 'nexus':        return <Nexus onNavigate={navigateTo} />
       case 'discovery':    return <DiscoveryForge />
       case 'achievements': return <Cathedral />
-      case 'social':       return <SocialLobby /> // ← changed from CampfireLobby
+      case 'social':       return <SocialLobby />
       case 'store':        return <BlackMarket />
       default:             return <Nexus onNavigate={navigateTo} />
     }
@@ -77,7 +77,7 @@ export default function App() {
       )}
 
       {entryDone && (
-        <div style={{ width: '100%', height: '100%' }}>
+        <div style={{ width: '100%' }}>
           <NavBar currentPage={page} onNavigate={navigateTo} />
           {renderPage()}
         </div>
@@ -87,11 +87,11 @@ export default function App() {
 }
 
 const NAV_ITEMS = [
-  { id: 'nexus',        label: 'NEXUS',     icon: '⬡' },
-  { id: 'discovery',    label: 'FORGE',     icon: '◈' },
-  { id: 'achievements', label: 'CATHEDRAL', icon: '✦' },
-  { id: 'social',       label: 'CAMPFIRE',  icon: '⬟' },
-  { id: 'store',        label: 'MARKET',    icon: '⬢' },
+  { id: 'nexus',        label: 'LOBBY',        icon: '⬡' },
+  { id: 'discovery',    label: 'EXPLORE',      icon: '◈' },
+  { id: 'achievements', label: 'ACHIEVEMENTS', icon: '✦' },
+  { id: 'social',       label: 'SOCIAL',       icon: '⬟' },
+  { id: 'store',        label: 'STORE',        icon: '⬢' },
 ]
 
 function NavBar({ currentPage, onNavigate }) {
@@ -103,35 +103,53 @@ function NavBar({ currentPage, onNavigate }) {
       background: 'linear-gradient(180deg, rgba(5,5,10,0.98) 0%, rgba(5,5,10,0) 100%)',
       borderBottom: '1px solid rgba(0,230,246,0.2)',
     }}>
-      <div style={{
-        fontFamily: 'Bebas Neue', fontSize: '1.8rem',
-        color: '#00E6F6', letterSpacing: '0.15em',
-        textShadow: '0 0 20px rgba(0,230,246,0.6)', cursor: 'pointer',
-      }} onClick={() => onNavigate('nexus')}>
-        ⬡ ARENA_OS
-      </div>
 
+      {/* PlayStation Logo */}
+      <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }} onClick={() => onNavigate('nexus')}>
+  <img
+    src="/Playstation-logo.jpg"
+    alt="PlayStation"
+    style={{ height: 60, width: 'auto' }}
+  />
+  <span style={{
+    fontFamily: 'Arial, sans-serif',
+    fontSize: '1.3rem',
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    letterSpacing: '0.02em',
+  }}>
+    <span style={{ color: '#1561b8' }}>P</span>lay<span style={{ color: '#1561b8' }}>S</span>tation
+  </span>
+</div>
+
+      {/* Nav Links */}
       <div style={{ display: 'flex', gap: '0.25rem' }}>
-        {NAV_ITEMS.map(item => (
-          <button key={item.id} onClick={() => onNavigate(item.id)} style={{
-            background: currentPage === item.id ? 'rgba(0,230,246,0.1)' : 'transparent',
-            border: 'none',
-            borderBottom: currentPage === item.id ? '2px solid #00E6F6' : '2px solid transparent',
-            color: currentPage === item.id ? '#F0F0F5' : '#888899',
-            fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.8rem',
-            letterSpacing: '0.12em', padding: '0 1rem', height: '64px',
-            cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem',
-            transition: 'all 0.2s ease',
-          }}>
-            <span style={{ fontSize: '1rem' }}>{item.icon}</span>
-            {item.label}
-          </button>
-        ))}
+        {NAV_ITEMS.map(item => {
+          const active = currentPage === item.id
+          return (
+            <button key={item.id} onClick={() => onNavigate(item.id)} style={{
+              background: active ? 'rgba(0,230,246,0.1)' : 'transparent',
+              border: 'none',
+              borderBottom: active ? '2px solid #00E6F6' : '2px solid transparent',
+              color: active ? '#F0F0F5' : '#888899',
+              fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.8rem',
+              letterSpacing: '0.12em', padding: '0 1rem', height: '64px',
+              cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem',
+              transition: 'all 0.2s ease',
+            }}
+              onMouseEnter={e => { if (!active) e.currentTarget.style.color = '#aaa' }}
+              onMouseLeave={e => { if (!active) e.currentTarget.style.color = '#888899' }}
+            >
+              <span style={{ fontSize: '1rem' }}>{item.icon}</span>
+              {item.label}
+            </button>
+          )
+        })}
       </div>
 
+      {/* Level Badge */}
       <div style={{
         display: 'flex', alignItems: 'center', gap: '0.75rem',
-        fontFamily: 'Rajdhani', fontWeight: 600, fontSize: '0.85rem',
       }}>
         <div style={{
           width: 36, height: 36, borderRadius: '50%',
@@ -140,13 +158,14 @@ function NavBar({ currentPage, onNavigate }) {
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: '0.75rem', color: '#00E6F6', fontFamily: 'Bebas Neue',
         }}>LVL</div>
-        <span style={{ color: '#F0F0F5' }}>SWAYAM_PSN</span>
         <span style={{
           background: 'linear-gradient(90deg, #003791, #00E6F6)',
           padding: '2px 8px', borderRadius: '3px',
-          fontFamily: 'Share Tech Mono', fontSize: '0.75rem', color: '#05050A', fontWeight: 'bold'
+          fontFamily: 'Share Tech Mono', fontSize: '0.75rem',
+          color: '#05050A', fontWeight: 'bold',
         }}>78</span>
       </div>
+
     </nav>
   )
 }

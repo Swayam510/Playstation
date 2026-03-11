@@ -63,7 +63,7 @@ const MOCK_MESSAGES = [
 const C = {
   active:  '#FF6B35',
   idle:    '#FFD700',
-  offline: '#444455',
+  offline: '#8A8A9A',
 };
 
 // ─────────────────────────────────────────────────────────────
@@ -132,14 +132,12 @@ function PlayerFlame({ user, index, total, isSelected, onClick }) {
 
   return (
     <group ref={grpRef} position={pos} onClick={onClick} style={{ cursor: 'pointer' }}>
-      {/* Ground glow */}
       {!isOff && (
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]}>
           <circleGeometry args={[0.9, 32]} />
           <meshBasicMaterial color={user.status === 'active' ? '#ff3300' : '#ffaa00'} transparent opacity={0.12} />
         </mesh>
       )}
-      {/* Flame */}
       <mesh position={[0, scaleY / 2, 0]} scale={[isOff ? 0.6 : 0.75, scaleY, isOff ? 0.6 : 0.75]}>
         <coneGeometry args={[0.5, 2, 32, 32]} />
         <shaderMaterial ref={matRef} vertexShader={vertexShader} fragmentShader={fragmentShader}
@@ -154,12 +152,11 @@ function PlayerFlame({ user, index, total, isSelected, onClick }) {
         <pointLight position={[0, 1, 0]} intensity={user.status === 'active' ? 3.5 : 1}
           distance={7} color={user.status === 'active' ? '#ff6600' : '#ff3300'} />
       )}
-      {/* Name label */}
       <Html position={[0, scaleY + 0.75, 0]} center zIndexRange={[50, 0]}>
         <div onClick={onClick} style={{
-          color: isOff ? '#555' : '#fff',
+          color: isOff ? '#9999AA' : '#FFFFFF',
           background: isSelected ? 'rgba(204,0,0,0.9)' : isOff ? 'rgba(15,15,20,0.9)' : 'rgba(8,8,18,0.88)',
-          border: `1px solid ${isSelected ? '#FF6B35' : isOff ? '#222' : C[user.status]}`,
+          border: `1px solid ${isSelected ? '#FF6B35' : isOff ? '#444' : C[user.status]}`,
           padding: '4px 10px', borderRadius: '20px',
           fontFamily: 'Rajdhani, sans-serif', fontWeight: 700, fontSize: '12px',
           whiteSpace: 'nowrap', cursor: 'pointer',
@@ -169,7 +166,7 @@ function PlayerFlame({ user, index, total, isSelected, onClick }) {
         }}>
           <div style={{ width: 6, height: 6, borderRadius: '50%', background: C[user.status], boxShadow: user.status !== 'offline' ? `0 0 6px ${C[user.status]}` : 'none' }} />
           {user.name}
-          <span style={{ opacity: 0.5, fontSize: '9px', fontFamily: 'Share Tech Mono, monospace' }}>Lv{user.level}</span>
+          <span style={{ opacity: 0.85, fontSize: '9px', fontFamily: 'Share Tech Mono, monospace' }}>Lv{user.level}</span>
         </div>
       </Html>
     </group>
@@ -237,13 +234,13 @@ function ChatMessage({ msg }) {
       <div style={{ maxWidth: '78%' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.4rem', flexDirection: isMe ? 'row-reverse' : 'row', marginBottom: '0.2rem' }}>
           <span style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.7rem', color: msg.color }}>{msg.user}</span>
-          <span style={{ fontFamily: 'Share Tech Mono', fontSize: '0.53rem', color: '#222233' }}>{msg.time}</span>
+          <span style={{ fontFamily: 'Share Tech Mono', fontSize: '0.53rem', color: '#8A8A9A' }}>{msg.time}</span>
         </div>
         <div style={{
           background: isMe ? 'rgba(204,0,0,0.1)' : 'rgba(255,255,255,0.04)',
           border: `1px solid ${isMe ? 'rgba(204,0,0,0.18)' : 'rgba(255,255,255,0.05)'}`,
           padding: '0.4rem 0.7rem',
-          fontFamily: 'Rajdhani', fontSize: '0.82rem', color: '#B0B0C0', lineHeight: 1.5,
+          fontFamily: 'Rajdhani', fontSize: '0.82rem', color: '#E0E0E5', lineHeight: 1.5,
         }}>{msg.text}</div>
       </div>
     </div>
@@ -263,7 +260,7 @@ function PlayerRow({ user, isSelected, inParty, onClick, onInvite }) {
       border: `1px solid ${isSelected ? 'rgba(255,107,53,0.22)' : 'transparent'}`,
       transition: 'all 0.18s',
     }}
-      onMouseEnter={e => { if (!isSelected) e.currentTarget.style.background = 'rgba(255,255,255,0.03)' }}
+      onMouseEnter={e => { if (!isSelected) e.currentTarget.style.background = 'rgba(255,255,255,0.08)' }} // Brighter hover
       onMouseLeave={e => { if (!isSelected) e.currentTarget.style.background = 'transparent' }}
     >
       <div style={{
@@ -275,10 +272,10 @@ function PlayerRow({ user, isSelected, inParty, onClick, onInvite }) {
         boxShadow: isOff ? 'none' : `0 0 8px ${C[user.status]}55`,
       }}>{user.avatar}</div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.78rem', color: isOff ? '#444455' : '#F0F0F5', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.78rem', color: isOff ? '#9999AA' : '#FFFFFF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {user.name}
         </div>
-        <div style={{ fontFamily: 'Share Tech Mono', fontSize: '0.55rem', color: '#2A2A3A', marginTop: '0.05rem' }}>
+        <div style={{ fontFamily: 'Share Tech Mono', fontSize: '0.55rem', color: '#888899', marginTop: '0.05rem' }}>
           {user.game ? `🎮 ${user.game}` : user.status.toUpperCase()}
         </div>
       </div>
@@ -286,12 +283,25 @@ function PlayerRow({ user, isSelected, inParty, onClick, onInvite }) {
         <button onClick={e => { e.stopPropagation(); onInvite(); }} style={{
           background: inParty ? 'rgba(255,215,0,0.08)' : 'transparent',
           border: `1px solid ${inParty ? 'rgba(255,215,0,0.3)' : 'rgba(255,255,255,0.07)'}`,
-          color: inParty ? '#FFD700' : '#444455',
+          color: inParty ? '#FFD700' : '#A0A0B0',
           fontFamily: 'Bebas Neue', fontSize: '0.62rem', letterSpacing: '0.1em',
           padding: '0.18rem 0.42rem', cursor: 'pointer', transition: 'all 0.2s', flexShrink: 0,
+          boxShadow: 'none', // Base shadow
         }}
-          onMouseEnter={e => { if (!inParty) { e.target.style.borderColor = 'rgba(255,107,53,0.4)'; e.target.style.color = '#FF6B35' } }}
-          onMouseLeave={e => { if (!inParty) { e.target.style.borderColor = 'rgba(255,255,255,0.07)'; e.target.style.color = '#444455' } }}
+          onMouseEnter={e => { 
+            if (!inParty) { 
+              e.target.style.borderColor = 'rgba(255,107,53,0.6)'; 
+              e.target.style.color = '#FF6B35';
+              e.target.style.boxShadow = '0 0 10px rgba(255,107,53,0.3)'; // Added glow on hover
+            } 
+          }}
+          onMouseLeave={e => { 
+            if (!inParty) { 
+              e.target.style.borderColor = 'rgba(255,255,255,0.07)'; 
+              e.target.style.color = '#A0A0B0';
+              e.target.style.boxShadow = 'none'; // Remove glow
+            } 
+          }}
         >
           {inParty ? '✓ IN' : '+ ADD'}
         </button>
@@ -308,10 +318,10 @@ function SelectedUserCard({ user, onInvite, inParty }) {
     <div style={{ padding: '0.9rem', background: `${C[user.status]}07`, border: `1px solid ${C[user.status]}22`, animation: 'slideIn 0.25s ease-out' }}>
       <div style={{ height: 2, background: `linear-gradient(90deg, ${C[user.status]}, transparent)`, marginBottom: '0.7rem' }} />
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
-        <div style={{ fontFamily: 'Bebas Neue', fontSize: '1.05rem', color: '#F0F0F5', letterSpacing: '0.06em' }}>{user.name}</div>
+        <div style={{ fontFamily: 'Bebas Neue', fontSize: '1.05rem', color: '#FFFFFF', letterSpacing: '0.06em' }}>{user.name}</div>
         <div style={{ fontFamily: 'Bebas Neue', fontSize: '1.05rem', color: C[user.status] }}>LV {user.level}</div>
       </div>
-      {user.game && <div style={{ fontFamily: 'Share Tech Mono', fontSize: '0.58rem', color: '#555566', marginBottom: '0.7rem' }}>🎮 {user.game}</div>}
+      {user.game && <div style={{ fontFamily: 'Share Tech Mono', fontSize: '0.58rem', color: '#A0A0B0', marginBottom: '0.7rem' }}>🎮 {user.game}</div>}
       <div style={{ display: 'flex', gap: '0.4rem' }}>
         <button onClick={onInvite} style={{
           flex: 1, background: inParty ? 'rgba(255,215,0,0.08)' : `${C[user.status]}12`,
@@ -319,15 +329,28 @@ function SelectedUserCard({ user, onInvite, inParty }) {
           color: inParty ? '#FFD700' : C[user.status],
           fontFamily: 'Bebas Neue', fontSize: '0.78rem', letterSpacing: '0.18em',
           padding: '0.42rem', cursor: 'pointer', transition: 'all 0.2s',
-        }}>{inParty ? '✓ IN PARTY' : '+ INVITE'}</button>
+          boxShadow: 'none',
+        }}
+          onMouseEnter={e => { if (!inParty) e.target.style.boxShadow = `0 0 12px ${C[user.status]}44` }} // Added glow
+          onMouseLeave={e => { if (!inParty) e.target.style.boxShadow = 'none' }}
+        >{inParty ? '✓ IN PARTY' : '+ INVITE'}</button>
         <button style={{
           padding: '0.42rem 0.65rem', background: 'transparent',
-          border: '1px solid rgba(255,255,255,0.07)', color: '#444455',
+          border: '1px solid rgba(255,255,255,0.07)', color: '#A0A0B0',
           fontFamily: 'Bebas Neue', fontSize: '0.78rem', letterSpacing: '0.12em',
           cursor: 'pointer', transition: 'all 0.2s',
+          boxShadow: 'none',
         }}
-          onMouseEnter={e => { e.target.style.color = '#F0F0F5'; e.target.style.borderColor = 'rgba(255,255,255,0.18)' }}
-          onMouseLeave={e => { e.target.style.color = '#444455'; e.target.style.borderColor = 'rgba(255,255,255,0.07)' }}
+          onMouseEnter={e => { 
+            e.target.style.color = '#FFFFFF'; 
+            e.target.style.borderColor = 'rgba(255,255,255,0.3)';
+            e.target.style.boxShadow = '0 0 10px rgba(255,255,255,0.15)'; // Added glow
+          }}
+          onMouseLeave={e => { 
+            e.target.style.color = '#A0A0B0'; 
+            e.target.style.borderColor = 'rgba(255,255,255,0.07)';
+            e.target.style.boxShadow = 'none';
+          }}
         >MSG</button>
       </div>
     </div>
@@ -386,9 +409,11 @@ export default function SocialLobby() {
       {/* 3D Canvas */}
       <div style={{ position: 'absolute', inset: 0, top: 64 }}>
         <Canvas shadows camera={{ position: [0, 9, 14], fov: 42 }}>
-          <ambientLight intensity={0.04} />
+          {/* Increased ambient light intensity from 0.04 to 0.15 */}
+          <ambientLight intensity={0.15} /> 
           <color attach="background" args={['#020208']} />
-          <fog attach="fog" args={['#020208', 18, 45]} />
+          {/* Pushed fog slightly further out to accommodate brighter light */}
+          <fog attach="fog" args={['#020208', 18, 55]} /> 
           <Stars radius={80} depth={50} count={2000} factor={3} fade speed={0.4} />
           {/* Ground */}
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, 0]} receiveShadow>
@@ -434,6 +459,7 @@ export default function SocialLobby() {
           fontSize: '0.82rem', letterSpacing: '0.15em',
           padding: '0.55rem 1.5rem',
           animation: 'notifIn 0.3s ease-out',
+          boxShadow: '0 0 15px rgba(255,107,53,0.2)', // Notification Glow
         }}>{notif}</div>
       )}
 
@@ -448,8 +474,8 @@ export default function SocialLobby() {
       }}>
         {/* Title */}
         <div>
-          <div style={{ fontFamily: 'Share Tech Mono', fontSize: '0.58rem', color: '#333344', letterSpacing: '0.5em', marginBottom: '0.15rem' }}>THE CAMPFIRE</div>
-          <h2 style={{ fontFamily: 'Bebas Neue', fontSize: '1.75rem', color: '#F0F0F5', letterSpacing: '0.12em', lineHeight: 1, margin: 0 }}>
+          <div style={{ fontFamily: 'Share Tech Mono', fontSize: '0.58rem', color: '#9999AA', letterSpacing: '0.5em', marginBottom: '0.15rem' }}>THE CAMPFIRE</div>
+          <h2 style={{ fontFamily: 'Bebas Neue', fontSize: '1.75rem', color: '#FFFFFF', letterSpacing: '0.12em', lineHeight: 1, margin: 0 }}>
             SOCIAL <span style={{ color: '#FF6B35' }}>LOBBY</span>
           </h2>
         </div>
@@ -457,7 +483,7 @@ export default function SocialLobby() {
         {/* Fire intensity */}
         <div style={{ padding: '0.9rem', background: 'rgba(255,107,53,0.05)', border: '1px solid rgba(255,107,53,0.12)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-            <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.66rem', letterSpacing: '0.35em', color: '#444455' }}>FIRE INTENSITY</div>
+            <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.66rem', letterSpacing: '0.35em', color: '#A0A0B0' }}>FIRE INTENSITY</div>
             <div style={{ fontFamily: 'Bebas Neue', fontSize: '1.05rem', color: '#FF6B35' }}>{onlineCount}/{LOBBY_USERS.length}</div>
           </div>
           <div style={{ height: 3, background: 'rgba(255,255,255,0.05)' }}>
@@ -467,14 +493,14 @@ export default function SocialLobby() {
               boxShadow: '0 0 8px #FF6B35', transition: 'width 1s ease',
             }} />
           </div>
-          <div style={{ fontFamily: 'Share Tech Mono', fontSize: '0.56rem', color: '#2A2A3A', marginTop: '0.35rem', letterSpacing: '0.2em' }}>
+          <div style={{ fontFamily: 'Share Tech Mono', fontSize: '0.56rem', color: '#888899', marginTop: '0.35rem', letterSpacing: '0.2em' }}>
             {onlineCount} AROUND THE FIRE
           </div>
         </div>
 
         {/* Player list */}
         <div>
-          <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.66rem', letterSpacing: '0.35em', color: '#444455', marginBottom: '0.6rem' }}>AROUND THE FIRE</div>
+          <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.66rem', letterSpacing: '0.35em', color: '#A0A0B0', marginBottom: '0.6rem' }}>AROUND THE FIRE</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
             {LOBBY_USERS.map(u => (
               <PlayerRow key={u.id} user={u}
@@ -497,11 +523,15 @@ export default function SocialLobby() {
             width: '100%', padding: '0.7rem',
             background: voiceOn ? 'rgba(255,107,53,0.12)' : 'transparent',
             border: `1px solid ${voiceOn ? 'rgba(255,107,53,0.35)' : 'rgba(255,255,255,0.07)'}`,
-            color: voiceOn ? '#FF6B35' : '#555566',
+            color: voiceOn ? '#FF6B35' : '#A0A0B0',
             fontFamily: 'Bebas Neue', fontSize: '0.9rem', letterSpacing: '0.3em',
             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem',
             transition: 'all 0.2s',
-          }}>
+            boxShadow: voiceOn ? '0 0 15px rgba(255,107,53,0.15)' : 'none',
+          }}
+            onMouseEnter={e => { if (!voiceOn) e.target.style.background = 'rgba(255,255,255,0.03)' }}
+            onMouseLeave={e => { if (!voiceOn) e.target.style.background = 'transparent' }}
+          >
             🎤 {voiceOn ? 'VOICE ACTIVE' : 'JOIN VOICE'}
             {voiceOn && <VoiceWave />}
           </button>
@@ -519,8 +549,8 @@ export default function SocialLobby() {
         {/* Chat header */}
         <div style={{ padding: '1.1rem 1.2rem 0.7rem', borderBottom: '1px solid rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#FF6B35', boxShadow: '0 0 7px #FF6B35', animation: 'campfirePulse 2s ease-in-out infinite' }} />
-          <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.66rem', letterSpacing: '0.35em', color: '#444455' }}>CAMPFIRE CHAT</div>
-          <div style={{ marginLeft: 'auto', fontFamily: 'Share Tech Mono', fontSize: '0.56rem', color: '#2A2A3A' }}>{messages.length} MSG</div>
+          <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.66rem', letterSpacing: '0.35em', color: '#A0A0B0' }}>CAMPFIRE CHAT</div>
+          <div style={{ marginLeft: 'auto', fontFamily: 'Share Tech Mono', fontSize: '0.56rem', color: '#888899' }}>{messages.length} MSG</div>
         </div>
 
         {/* Messages */}
@@ -533,16 +563,23 @@ export default function SocialLobby() {
           <div style={{ width: 26, height: 26, borderRadius: '50%', background: 'linear-gradient(135deg, #CC0000, #1A0A2E)', border: '1.5px solid #FF6B35', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Bebas Neue', fontSize: '0.58rem', color: '#FF6B35', flexShrink: 0 }}>AK</div>
           <input value={chatInput} onChange={e => setChatInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && sendMsg()}
             placeholder="Say something..."
-            style={{ flex: 1, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', color: '#F0F0F5', fontFamily: 'Rajdhani', fontSize: '0.83rem', padding: '0.45rem 0.7rem', outline: 'none', transition: 'border-color 0.2s' }}
-            onFocus={e => e.target.style.borderColor = 'rgba(255,107,53,0.35)'}
-            onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.07)'}
+            style={{ flex: 1, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', color: '#FFFFFF', fontFamily: 'Rajdhani', fontSize: '0.83rem', padding: '0.45rem 0.7rem', outline: 'none', transition: 'all 0.2s' }}
+            onFocus={e => {
+              e.target.style.borderColor = 'rgba(255,107,53,0.5)';
+              e.target.style.boxShadow = '0 0 8px rgba(255,107,53,0.2)'; // Input glow on focus
+            }}
+            onBlur={e => {
+              e.target.style.borderColor = 'rgba(255,255,255,0.07)';
+              e.target.style.boxShadow = 'none';
+            }}
           />
           <button onClick={sendMsg} style={{
             background: chatInput.trim() ? 'linear-gradient(135deg, #CC0000, #880000)' : 'rgba(255,255,255,0.04)',
-            border: 'none', color: chatInput.trim() ? '#fff' : '#2A2A3A',
+            border: 'none', color: chatInput.trim() ? '#fff' : '#888899',
             fontFamily: 'Bebas Neue', fontSize: '0.82rem', letterSpacing: '0.12em',
             padding: '0.45rem 0.7rem', cursor: chatInput.trim() ? 'pointer' : 'default',
             transition: 'all 0.2s', flexShrink: 0,
+            boxShadow: chatInput.trim() ? '0 0 10px rgba(204,0,0,0.4)' : 'none', // Send button glow when active
           }}>SEND</button>
         </div>
       </div>
@@ -554,7 +591,7 @@ export default function SocialLobby() {
         background: 'linear-gradient(0deg, rgba(2,2,12,0.98) 0%, transparent 100%)',
         display: 'flex', alignItems: 'center', gap: '1.25rem',
       }}>
-        <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.66rem', letterSpacing: '0.35em', color: '#444455', flexShrink: 0 }}>YOUR PARTY</div>
+        <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.66rem', letterSpacing: '0.35em', color: '#A0A0B0', flexShrink: 0 }}>YOUR PARTY</div>
         <div style={{ display: 'flex', gap: '0.45rem', alignItems: 'center' }}>
           {party.map((name, i) => (
             <div key={name} style={{
@@ -562,25 +599,30 @@ export default function SocialLobby() {
               background: 'rgba(255,107,53,0.07)', border: '1px solid rgba(255,107,53,0.22)',
               padding: '0.28rem 0.6rem',
               animation: i === party.length - 1 && i > 0 ? 'slideIn 0.35s ease-out' : 'none',
+              boxShadow: '0 0 8px rgba(255,107,53,0.1)', // Subtle party member glow
             }}>
               <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#FF6B35', boxShadow: '0 0 4px #FF6B35' }} />
-              <span style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.73rem', color: '#F0F0F5', letterSpacing: '0.08em' }}>{name}</span>
+              <span style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.73rem', color: '#FFFFFF', letterSpacing: '0.08em' }}>{name}</span>
             </div>
           ))}
           {Array.from({ length: Math.max(0, 4 - party.length) }).map((_, i) => (
-            <div key={i} style={{ width: 60, height: 26, border: '1px dashed rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Share Tech Mono', fontSize: '0.53rem', color: '#1A1A2A' }}>OPEN</div>
+            <div key={i} style={{ width: 60, height: 26, border: '1px dashed rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Share Tech Mono', fontSize: '0.53rem', color: '#777788' }}>OPEN</div>
           ))}
         </div>
         <button onClick={() => party.length > 1 && showNotif('🎮 Starting party session...')} style={{
           marginLeft: 'auto',
           background: party.length > 1 ? 'linear-gradient(135deg, #CC0000, #880000)' : 'rgba(255,255,255,0.03)',
           border: `1px solid ${party.length > 1 ? 'rgba(204,0,0,0.4)' : 'rgba(255,255,255,0.05)'}`,
-          color: party.length > 1 ? '#fff' : '#2A2A3A',
+          color: party.length > 1 ? '#fff' : '#888899',
           fontFamily: 'Bebas Neue', fontSize: '0.88rem', letterSpacing: '0.25em',
           padding: '0.48rem 1.4rem', cursor: party.length > 1 ? 'pointer' : 'default',
           transition: 'all 0.2s', flexShrink: 0,
-        }}>START SESSION</button>
-        <div style={{ fontFamily: 'Share Tech Mono', fontSize: '0.56rem', color: '#1A1A2A', letterSpacing: '0.18em', flexShrink: 0 }}>CLICK A FLAME</div>
+          boxShadow: party.length > 1 ? '0 0 15px rgba(204,0,0,0.3)' : 'none', // Active state glow
+        }}
+          onMouseEnter={e => { if (party.length > 1) e.target.style.boxShadow = '0 0 20px rgba(255,107,53,0.5)' }}
+          onMouseLeave={e => { if (party.length > 1) e.target.style.boxShadow = '0 0 15px rgba(204,0,0,0.3)' }}
+        >START SESSION</button>
+        <div style={{ fontFamily: 'Share Tech Mono', fontSize: '0.56rem', color: '#777788', letterSpacing: '0.18em', flexShrink: 0 }}>CLICK A FLAME</div>
       </div>
 
       <style>{`
@@ -591,7 +633,7 @@ export default function SocialLobby() {
         @keyframes waveBar    { 0%,100%{transform:scaleY(0.3)} 50%{transform:scaleY(1)} }
         .lob-left::-webkit-scrollbar{width:2px}
         .lob-left::-webkit-scrollbar-thumb{background:rgba(255,107,53,0.18)}
-        input::placeholder{color:#222233}
+        input::placeholder{color:#888899}
       `}</style>
     </div>
   );

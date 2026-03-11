@@ -1,11 +1,11 @@
 import React from 'react'
 
 const NAV_ITEMS = [
-  { id: 'nexus',        label: 'NEXUS',      icon: '⬡' },
-  { id: 'discovery',    label: 'FORGE',      icon: '◈' },
-  { id: 'achievements', label: 'CATHEDRAL',  icon: '✦' },
-  { id: 'social',       label: 'CAMPFIRE',   icon: '⬟' },
-  { id: 'store',        label: 'MARKET',     icon: '⬢' },
+  { id: 'nexus',        label: 'LOBBY',      icon: '⬡' },
+  { id: 'discovery',    label: 'EXPLORE',      icon: '◈' },
+  { id: 'achievements', label: 'ACHEIVEMENTS',  icon: '✦' },
+  { id: 'social',       label: 'SOCIAL',   icon: '⬟' },
+  { id: 'store',        label: 'STORE',     icon: '⬢' },
 ]
 
 export default function NavBar({ currentPage, onNavigate }) {
